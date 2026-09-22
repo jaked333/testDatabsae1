@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import java.util.*;
+import jakarta.persistence*;
 
 public class Category {
 	private String categoryId;

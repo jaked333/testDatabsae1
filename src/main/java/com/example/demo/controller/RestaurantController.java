@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import java.util.*;
 
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +13,7 @@ import com.example.demo.model.Category;
 import com.example.demo.model.Menu;
 //import com.example.demo.model.Product;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class RestaurantController {
 	
@@ -56,10 +59,21 @@ public class RestaurantController {
 			if (category.getCategoryId().equalsIgnoreCase(id)) {
 				return category;
 			}
-		}
+		}	
 		return null;
 	}
-	
+    
+    
+//    @GetMapping("/category1s/{id}")
+//    public ResponseEntity<?> getCategoryById(@PathVariable("id") String id) {
+//		for (Category category : categoyTest) {
+//			if (category.getCategoryId().equalsIgnoreCase(id)) {
+//				return ResponseEntity.ok(category.getMenuList());
+//			}
+//		}
+//		return ResponseEntity.notFound().build();
+//	}
+//	
     @GetMapping("/menu/{id}")
     public Menu getMenu(@PathVariable("id") String id) {
 		for (Category category : categoyTest) {
