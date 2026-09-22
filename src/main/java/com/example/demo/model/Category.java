@@ -1,35 +1,35 @@
 package com.example.demo.model;
 
-import java.util.*;
-import jakarta.persistence*;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "category")
 public class Category {
-	private String categoryId;
-	private String categoryName;
-	private List<Menu> menuList = new ArrayList<>();
 
-//	public Category(String categoryId, String categoryName, List<Menu> menuList) {
-//		super();
-//		this.categoryId = categoryId;
-//		this.categoryName = categoryName;
-//		this.menuList = menuList;
-//	}
+	@Id
+	@Column(name = "category_id")
+	private String categoryId;
+
+	@Column(name = "category_name")
+	private String categoryName;
+
+	@JsonIgnoreProperties("category")
+	@JsonIgnore
+	@OneToMany(mappedBy = "category")
+	private List<Menu> menus = new ArrayList<>();
 
 	public Category() {
 		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public void addMenu(Menu menu) {
-		this.menuList.add(menu);
-	}
-
-	public List<Menu> getMenuList() {
-		return menuList;
-	}
-
-	public void setMenuList(List<Menu> menuList) {
-		this.menuList = menuList;
 	}
 
 	public Category(String categoryId, String categoryName) {
@@ -54,4 +54,27 @@ public class Category {
 		this.categoryName = categoryName;
 	}
 
+	@JsonIgnore
+	public List<Menu> getMenus() {
+		return menus;
+	}
+
+	public void setMenus(List<Menu> menus) {
+		this.menus = menus;
+	}
+
+	// Backwards compatibility for existing code using getMenuList
+	@JsonIgnore
+	public List<Menu> getMenuList() {
+		return menus;
+	}
+
+	public void setMenuList(List<Menu> menuList) {
+		this.menus = menuList;
+	}
+
+	public void addMenu(Menu menu) {
+		this.menus.add(menu);
+		menu.setCategory(this);
+	}
 }
